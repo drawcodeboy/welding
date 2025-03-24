@@ -1,0 +1,16 @@
+expr: test AttentionNet
+
+device: cuda:1
+
+data:
+  dataset: welding
+  mode: test
+
+model:
+  name: AttentionNet
+
+hyperparams:
+  batch_size: 2
+
+save_weights_dir: saved/
+weights_file_name: attentionnet.welding.970epochs.pth

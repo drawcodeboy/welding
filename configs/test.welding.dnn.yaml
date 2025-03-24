@@ -1,0 +1,16 @@
+expr: test DNN
+
+device: cuda:1
+
+data:
+  dataset: welding
+  mode: test
+
+model:
+  name: DNN
+
+hyperparams:
+  batch_size: 2
+
+save_weights_dir: saved/
+weights_file_name: dnn.welding.886epochs.pth
