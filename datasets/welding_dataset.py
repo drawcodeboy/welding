@@ -86,13 +86,40 @@ class WeldingDataset():
         labels = self.data_li[:, 8:26]
         self.data_li = self.data_li[:, :8]
         
-        # 5) Min-Max Scaling according to each column axis
+        # 5) Scaling according to each column axis
         if self.scale == True:
             for i in range(1, 8):
-                X_min = self.data_li[:, i].min()
-                X_max = self.data_li[:, i].max()
-        
-                scaled_col = (self.data_li[:, i] - X_min) / (X_max - X_min)
+                
+                method = 4
+                
+                if method == 1:
+                    # Min-Max Scaling -> Standardization
+                    X_min = self.data_li[:, i].min()
+                    X_max = self.data_li[:, i].max()
+
+                    scaled_col = (self.data_li[:, i] - X_min) / (X_max - X_min)
+                    scaled_col = (scaled_col - scaled_col.mean()) / scaled_col.std()
+                    
+                elif method == 2:
+                    # Standardization -> Min-Max Scaling
+                    scaled_col = (self.data_li[:, i] - self.data_li[:, i].mean()) / self.data_li[:, i].std()
+                    
+                    X_min = scaled_col.min()
+                    X_max = scaled_col.max()
+                    
+                    scaled_col = (scaled_col - X_min) / (X_max - X_min)
+                    
+                elif method == 3:
+                    # Min-Max Scaling
+                    X_min = self.data_li[:, i].min()
+                    X_max = self.data_li[:, i].max()
+
+                    scaled_col = (self.data_li[:, i] - X_min) / (X_max - X_min)
+                    
+                elif method == 4:
+                    # Standardization
+                    scaled_col = (self.data_li[:, i] - self.data_li[:, i].mean()) / self.data_li[:, i].std()
+                
                 self.data_li[:, i] = scaled_col
         
         # 6) Label ((x+y),) -> (2, (x|y))
